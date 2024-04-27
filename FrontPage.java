@@ -8,9 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Font;
-
-
-public class FrontPage {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+public class FrontPage{
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -151,6 +151,13 @@ public class FrontPage {
         button12.setBackground(buttonColor7);
         button13.setBackground(buttonColor8);
         
+        button6.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Open a new window for the notice board
+                NoticeBoard noticeBoard = new NoticeBoard();
+                noticeBoard.setVisible(true);
+            }
+        });
 
         //a
         panel3.add(button6);
