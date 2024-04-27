@@ -21,9 +21,9 @@ public class FrontPage{
         JPanel panel2 = new JPanel();
         JPanel panel3 = new JPanel();
 
-        panel1.setBackground(Color.red);
-        panel2.setBackground(Color.blue);
-        panel3.setBackground(Color.lightGray);
+        panel1.setBackground(new Color(46,139,87));
+        panel2.setBackground(new Color(46,139,87));
+        panel3.setBackground(new Color(220,220,220));
 
         panel1.setPreferredSize(new Dimension(100, 100));
         panel2.setPreferredSize(new Dimension(230, 100));
@@ -39,9 +39,9 @@ public class FrontPage{
 
         // Add text to panel1
         JLabel textLabel = new JLabel("MU SPORTS CLUB");
-        Font font = new Font("Garamond", Font.BOLD | Font.ITALIC, 46);
+        Font font = new Font("Oswald", Font.BOLD | Font.ITALIC, 56);
         textLabel.setFont(font);
-        textLabel.setForeground(Color.WHITE); 
+        textLabel.setForeground(new Color(255,255,255)); 
         //textLabel.setPreferredSize(new Dimension(500, 100));
         panel1.add(textLabel);
 
@@ -76,7 +76,7 @@ public class FrontPage{
         button5.setForeground(fontColor);
         
         // Set background color for buttons
-        Color buttonColor = Color.BLUE;
+        Color buttonColor = new Color(46,139,87);
         button1.setBackground(buttonColor);
         button2.setBackground(buttonColor);
         button3.setBackground(buttonColor);
@@ -134,14 +134,14 @@ public class FrontPage{
         button13.setForeground(fontColor1);
         
         // Set background color for buttons
-        Color buttonColor1 = Color.ORANGE;
-        Color buttonColor2 = Color.darkGray;
-        Color buttonColor3 = Color.pink;
-        Color buttonColor4 = Color.magenta;
-        Color buttonColor5 = Color.magenta;
-        Color buttonColor6 = Color.orange;
-        Color buttonColor7 = Color.darkGray;
-        Color buttonColor8 = Color.pink;
+        Color buttonColor1 = new Color(70,130,180); 
+        Color buttonColor2 = new Color(255,165,0);
+        Color buttonColor3 = new Color(107,142,35); 
+        Color buttonColor4 = new Color(255,105,180);
+        Color buttonColor5 = new Color(0,128,128);
+        Color buttonColor6 = new Color(0,206,209);
+        Color buttonColor7 = new Color(139,0,139);
+        Color buttonColor8 = new Color(205,133,63);
         button6.setBackground(buttonColor1);
         button7.setBackground(buttonColor2);
         button8.setBackground(buttonColor3);
