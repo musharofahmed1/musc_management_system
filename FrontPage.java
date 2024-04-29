@@ -10,12 +10,12 @@ import javax.swing.JPanel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-public class FrontPage{
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1270, 650);
-        frame.setLayout(new BorderLayout(10, 10));
+public class FrontPage extends JFrame {
+    public FrontPage() {
+        setTitle("MU Sports Club");
+        setSize(1270, 650);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout(10, 10));
 
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
@@ -170,10 +170,12 @@ public class FrontPage{
         panel3.add(button13);
         
 
-        frame.add(panel1, BorderLayout.NORTH);
-        frame.add(panel2, BorderLayout.WEST);
-        frame.add(panel3, BorderLayout.CENTER);
+        add(panel1, BorderLayout.NORTH);
+        add(panel2, BorderLayout.WEST);
+        add(panel3, BorderLayout.CENTER);
+    }
 
-        frame.setVisible(true);
+    public static void main(String[] args) {
+        new FrontPage();
     }
 }

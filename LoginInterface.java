@@ -56,8 +56,8 @@ public class LoginInterface extends JFrame implements ActionListener {
 
         
         if (username.equals("admin") && password.equals("admin123")) {
-            // Open front page upon successful login
-            new FrontPage();
+            // Open FrontPage upon successful login
+            new FrontPage().setVisible(true);
             // Close the login interface window
             dispose();
         } else {
