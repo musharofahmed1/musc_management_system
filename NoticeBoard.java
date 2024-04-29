@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -7,77 +6,118 @@ import java.util.ArrayList;
 public class NoticeBoard extends JFrame {
     private JTextArea noticeTextArea;
     private ArrayList<String> notices;
+    private int currentIndex;
 
     public NoticeBoard() {
         setTitle("Notice Board");
         setSize(1040, 508);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close only this window, not the whole application
-        getContentPane().setBackground(new Color(220, 220, 220)); // Set background color
-        setLocationRelativeTo(null); // Center the window
-        setLocation(230,140);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        getContentPane().setBackground(new Color(220, 220, 220));
+        setLocation(230, 140);
 
         // Initialize notices ArrayList
         notices = new ArrayList<>();
+        currentIndex = -1;
+
+        // Text Panel
+        JPanel textPanel = new JPanel(new BorderLayout());
+        textPanel.setBackground(new Color(46, 139, 87));
+
+        // Title Label
+        JLabel titleLabel = new JLabel("NOTICE");
+        titleLabel.setFont(new Font("Oswald", Font.BOLD | Font.ITALIC, 36));
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        textPanel.add(titleLabel, BorderLayout.NORTH);
 
         // Notice Text Area
-        noticeTextArea = new JTextArea();
+        noticeTextArea = new JTextArea(20, 40);
         noticeTextArea.setEditable(false);
+        noticeTextArea.setFont(new Font("Arial", Font.BOLD, 24));
+        noticeTextArea.setForeground(Color.BLACK);
+        noticeTextArea.setLineWrap(true);
+        noticeTextArea.setWrapStyleWord(true);
         JScrollPane scrollPane = new JScrollPane(noticeTextArea);
 
-        // Buttons
+        textPanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Button Panel
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 3, 10, 10));
+        buttonPanel.setBackground(new Color(46, 139, 87));
+
+        JButton previousButton = new JButton("Previous Notice");
+        previousButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showPreviousNotice();
+            }
+        });
+        
+
         JButton addButton = new JButton("Add Notice");
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 addNotice();
             }
         });
+        
 
-        JButton editButton = new JButton("Edit Notice");
-        editButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                editNotice();
-            }
-        });
-
-        JButton deleteButton = new JButton("Delete Notice");
-        deleteButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                deleteNotice();
-            }
-        });
-
-        // Layout
-        setLayout(new BorderLayout());
-
-        // Button Panel at the Top
-        JPanel topButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        topButtonPanel.add(addButton);
-        topButtonPanel.add(editButton);
-        topButtonPanel.add(deleteButton);
-        add(topButtonPanel, BorderLayout.NORTH);
-
-        // Close Button at the Bottom
         JButton closeButton = new JButton("Close");
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose(); // Close the window
             }
         });
-        JPanel bottomButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        bottomButtonPanel.add(closeButton);
-        add(bottomButtonPanel, BorderLayout.SOUTH);
 
-        // Notice Text Area
-        add(scrollPane, BorderLayout.CENTER);
+        Dimension buttonSize = new Dimension(220, 40); // Button size
+        addButton.setPreferredSize(buttonSize);
+        previousButton.setPreferredSize(buttonSize);
+        closeButton.setPreferredSize(buttonSize);
+        
+        
+        // Set font for buttons
+        Font buttonFont = new Font("Garamond", Font.BOLD, 18);
+        addButton.setFont(buttonFont);
+        previousButton.setFont(buttonFont);
+        closeButton.setFont(buttonFont);
+        
+        
+        // Set font color for buttons
+        Color fontColor = Color.WHITE;
+        addButton.setForeground(fontColor);
+        previousButton.setForeground(fontColor);
+        closeButton.setForeground(fontColor);
+        
+        
+        // Set background color for buttons
+        Color buttonColor = new Color(46,139,87);
+        addButton.setBackground(buttonColor);
+        previousButton.setBackground(buttonColor);
+        closeButton.setBackground(buttonColor);
+        
 
+
+        buttonPanel.add(previousButton);
+        buttonPanel.add(addButton);
+        buttonPanel.add(closeButton);
+
+        // Add panels to frame
+        add(textPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
+        
         // Display notices
         updateNoticeTextArea();
     }
 
     private void updateNoticeTextArea() {
-        noticeTextArea.setText("");
-        for (String notice : notices) {
-            noticeTextArea.append(notice + "\n");
+        if (notices.isEmpty()) {
+            noticeTextArea.setText("No notices available.");
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (String notice : notices) {
+                sb.append(notice).append("\n");
+            }
+            noticeTextArea.setText(sb.toString());
         }
     }
 
@@ -85,29 +125,18 @@ public class NoticeBoard extends JFrame {
         String newNotice = JOptionPane.showInputDialog(this, "Enter new notice:");
         if (newNotice != null && !newNotice.trim().isEmpty()) {
             notices.add(newNotice);
+            currentIndex = notices.size() - 1;
             updateNoticeTextArea();
         }
     }
 
-    private void editNotice() {
-        String selectedNotice = noticeTextArea.getSelectedText();
-        if (selectedNotice != null && !selectedNotice.isEmpty()) {
-            String editedNotice = JOptionPane.showInputDialog(this, "Edit notice:", selectedNotice);
-            if (editedNotice != null && !editedNotice.trim().isEmpty()) {
-                notices.set(notices.indexOf(selectedNotice), editedNotice);
-                updateNoticeTextArea();
-            }
-        }
-    }
-
-    private void deleteNotice() {
-        String selectedNotice = noticeTextArea.getSelectedText();
-        if (selectedNotice != null && !selectedNotice.isEmpty()) {
-            int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this notice?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
-            if (choice == JOptionPane.YES_OPTION) {
-                notices.remove(selectedNotice);
-                updateNoticeTextArea();
-            }
+    private void showPreviousNotice() {
+        if (currentIndex >= 0 && currentIndex < notices.size()) {
+            JOptionPane.showMessageDialog(this, notices.get(currentIndex), "Previous Notice", JOptionPane.INFORMATION_MESSAGE);
+            currentIndex--;
+            if (currentIndex < 0) currentIndex = notices.size() - 1;
+        } else {
+            JOptionPane.showMessageDialog(this, "No previous notice available.", "Previous Notice", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
