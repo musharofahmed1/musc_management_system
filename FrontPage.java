@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class FrontPage extends JFrame {
+    private LoginInterface loginInterface;
     public FrontPage() {
         setTitle("MU Sports Club");
         setSize(1270, 650);
@@ -82,6 +83,20 @@ public class FrontPage extends JFrame {
         button3.setBackground(buttonColor);
         button4.setBackground(buttonColor);
         button5.setBackground(buttonColor);
+
+        button3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new ChangePasswordConfirmationDialog(FrontPage.this).setVisible(true);
+            }
+        });
+        
+        button5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Open the login interface again
+                dispose(); // Close current window
+                new LoginInterface(); // Open login interface
+            }
+        });
 
         panel2.add(button1);
         panel2.add(button2);
@@ -159,6 +174,38 @@ public class FrontPage extends JFrame {
             }
         });
 
+        button7.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Open a new window for the notice board
+                NewsBlogsApp newsBlogsApp = new NewsBlogsApp();
+                newsBlogsApp.setVisible(true);
+            }
+        });
+
+        button8.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Open a new window for the notice board
+                UserManage userManage = new UserManage();
+                userManage.setVisible(true);
+            }
+        });
+
+        button9.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Open a new window for the notice board
+                BloodBank bloodBank = new BloodBank();
+                bloodBank.setVisible(true);
+            }
+        });
+
+        button11.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Open a new window for the notice board
+                CostManager costManager = new CostManager();
+                costManager.setVisible(true);
+            }
+        });
+
         //a
         panel3.add(button6);
         panel3.add(button7);
@@ -173,6 +220,11 @@ public class FrontPage extends JFrame {
         add(panel1, BorderLayout.NORTH);
         add(panel2, BorderLayout.WEST);
         add(panel3, BorderLayout.CENTER);
+
+        loginInterface = new LoginInterface();
+    }
+    public LoginInterface getLoginInterface() {
+        return loginInterface;
     }
 
     public static void main(String[] args) {

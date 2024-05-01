@@ -16,27 +16,31 @@ public class LoginInterface extends JFrame implements ActionListener {
 
         JLabel welcomeLabel = new JLabel("Welcome Admin", SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Garamond", Font.BOLD, 25)); 
-        welcomeLabel.setForeground(Color.RED); // Changed font color to orange
+        welcomeLabel.setForeground(new Color(46, 139, 87)); 
+        welcomeLabel.setBackground(new Color(0,128,128));// Changed font color to orange
         welcomeLabel.setPreferredSize(new Dimension(150, 30)); 
         
         JLabel usernameLabel = new JLabel("Username:");
-        usernameLabel.setFont(new Font("Garamond", Font.PLAIN, 25));
+        usernameLabel.setFont(new Font("Garamond", Font.BOLD, 25));
         usernameLabel.setForeground(Color.BLACK); // Changed font color to black
         usernameLabel.setPreferredSize(new Dimension(150, 30)); 
 
         JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setFont(new Font("Garamond", Font.PLAIN, 25));
+        passwordLabel.setFont(new Font("Garamond", Font.BOLD, 25));
         passwordLabel.setForeground(Color.BLACK); // Changed font color to black
         passwordLabel.setPreferredSize(new Dimension(150, 30));
 
         usernameField = new JTextField();
         usernameField.setPreferredSize(new Dimension(150, 30)); 
-
+        Font font = new Font("Oswald", Font.PLAIN, 22);
+        usernameField.setForeground(new Color(46, 139, 87));
+        usernameField.setFont(font);
+        
         passwordField = new JPasswordField();
         passwordField.setPreferredSize(new Dimension(150, 30)); 
 
         JButton loginButton = new JButton("Login");
-        loginButton.setBackground(Color.ORANGE);
+        loginButton.setBackground(new Color(46, 139, 87));
         loginButton.setFont(new Font("Arial", Font.BOLD, 20)); // Setting font size and style
         loginButton.setForeground(Color.WHITE); // Setting font color
         loginButton.addActionListener(this); 
@@ -66,7 +70,12 @@ public class LoginInterface extends JFrame implements ActionListener {
         } else {
             JOptionPane.showMessageDialog(this, "Invalid username or password. Please try again.");
         }
+
     }
+    public void setPassword(String newPassword) {
+        passwordField.setText(newPassword);
+    }
+    
 
     public static void main(String[] args) {
         new LoginInterface();
