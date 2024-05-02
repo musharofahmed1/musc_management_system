@@ -32,10 +32,22 @@ public class EventHandle extends JFrame {
         // Button Panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(46, 139, 87));
-
+        Font font = new Font("Oswald", Font.BOLD, 14);
         addVolunteerButton = new JButton("Add Volunteer");
+        addVolunteerButton.setForeground(new Color(222,222,222));
+        addVolunteerButton.setBackground(new Color(46, 139, 87));
+        addVolunteerButton.setFont(font);
+
         removeVolunteerButton = new JButton("Remove Volunteer");
+        removeVolunteerButton.setForeground(new Color(222,222,222));
+        removeVolunteerButton.setBackground(new Color(46, 139, 87));
+        removeVolunteerButton.setFont(font);
+
         closeButton = new JButton("Close Window");
+        closeButton.setForeground(new Color(222,222,222));
+        closeButton.setBackground(new Color(46, 139, 87));
+        closeButton.setFont(font);
+
 
         // Button Actions
         addVolunteerButton.addActionListener(new ActionListener() {
@@ -65,6 +77,8 @@ public class EventHandle extends JFrame {
         searchPanel.setBackground(new Color(46, 139, 87));
         searchTextArea = new JTextArea(1, 20);
         searchButton = new JButton("Search");
+        searchButton.setForeground(new Color(222,222,222));
+        searchButton.setBackground(new Color(46, 139, 87));
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 searchVolunteer();

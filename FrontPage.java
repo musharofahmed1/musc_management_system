@@ -197,6 +197,13 @@ public class FrontPage extends JFrame {
                 bloodBank.setVisible(true);
             }
         });
+        button10.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Open a new window for the notice board
+                EventHandle eventHandle = new EventHandle();
+                eventHandle.setVisible(true);
+            }
+        });
 
         button11.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
