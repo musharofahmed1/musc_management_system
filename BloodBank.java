@@ -29,16 +29,16 @@ public class BloodBank extends JFrame {
 
         // Search Panel
         JPanel searchPanel = new JPanel(new FlowLayout());
-        searchPanel.setBackground(new Color(46,139,87));
+        searchPanel.setBackground(new Color(46, 139, 87));
         JLabel bloodGroupLabel = new JLabel("Blood Group:");
-        bloodGroupLabel.setForeground(new Color(255,255,255));
+        bloodGroupLabel.setForeground(new Color(255, 255, 255));
         Font font = new Font("Oswald", Font.PLAIN, 16);
         bloodGroupLabel.setFont(font);
         JComboBox<String> bloodGroupCombo = new JComboBox<>(new String[]{"O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"});
-        bloodGroupCombo.setBackground(new Color(46,139,87));
-        bloodGroupCombo.setForeground(new Color(255,255,255));
+        bloodGroupCombo.setBackground(new Color(46, 139, 87));
+        bloodGroupCombo.setForeground(new Color(255, 255, 255));
         JLabel locationLabel = new JLabel("Search Location:");
-        locationLabel.setForeground(new Color(255,255,255));
+        locationLabel.setForeground(new Color(255, 255, 255));
         locationLabel.setFont(font);
 
         JTextField locationTextField = new JTextField(15);
@@ -49,7 +49,7 @@ public class BloodBank extends JFrame {
         searchButton.setFont(buttonFont);
         Color fontColor = Color.WHITE;
         searchButton.setForeground(fontColor);
-        Color buttonColor = new Color(46,139,87);
+        Color buttonColor = new Color(46, 139, 87);
         searchButton.setBackground(buttonColor);
 
         searchPanel.add(bloodGroupLabel);
@@ -132,21 +132,74 @@ public class BloodBank extends JFrame {
         String[] donorData = new String[6];
 
         // Show input dialogs for donor data
-        donorData[0] = JOptionPane.showInputDialog(this, "Enter Donor Name:");
-        donorData[1] = JOptionPane.showInputDialog(this, "Enter Age:");
-        donorData[2] = JOptionPane.showInputDialog(this, "Enter Blood Group:");
-        donorData[3] = JOptionPane.showInputDialog(this, "Enter Phone Number:");
-        donorData[4] = JOptionPane.showInputDialog(this, "Enter Address:");
-        donorData[5] = JOptionPane.showInputDialog(this, "Enter Last Donate(Date):");
+        JPanel inputPanel = new JPanel(new GridLayout(6, 2));
+        JTextField nameField = new JTextField(10);
+        JTextField ageField = new JTextField(10);
+        JComboBox<String> bloodGroupCombo = new JComboBox<>(new String[]{"O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"});
+        JTextField phoneField = new JTextField(10);
+        JTextField addressField = new JTextField(10);
+        JTextField lastDonateField = new JTextField(10);
+
+        inputPanel.add(new JLabel("Donor Name:"));
+        inputPanel.add(nameField);
+        inputPanel.add(new JLabel("Age:"));
+        inputPanel.add(ageField);
+        inputPanel.add(new JLabel("Blood Group:"));
+        inputPanel.add(bloodGroupCombo);
+        inputPanel.add(new JLabel("Phone Number:"));
+        inputPanel.add(phoneField);
+        inputPanel.add(new JLabel("Address:"));
+        inputPanel.add(addressField);
+        inputPanel.add(new JLabel("Last Donate(Date):"));
+        inputPanel.add(lastDonateField);
+
+        int result = JOptionPane.showConfirmDialog(this, inputPanel, "Add Donor", JOptionPane.OK_CANCEL_OPTION);
+        if (result != JOptionPane.OK_OPTION) {
+            return;
+        }
+
+        // Validate phone number
+        String phoneNumber = phoneField.getText();
+        if (!phoneNumber.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Phone number must contain only digits.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Check if the phone number is unique
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, 3).equals(phoneNumber)) {
+                JOptionPane.showMessageDialog(this, "Phone number must be unique.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
 
         // Add the donor data to the table
+        donorData[0] = nameField.getText();
+        donorData[1] = ageField.getText();
+        donorData[2] = (String) bloodGroupCombo.getSelectedItem();
+        donorData[3] = phoneNumber;
+        donorData[4] = addressField.getText();
+        donorData[5] = lastDonateField.getText();
+
         model.addRow(donorData);
     }
 
     private void editDonor() {
-        int selectedRow = table.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a row to edit.", "Error", JOptionPane.ERROR_MESSAGE);
+        String phoneNumber = JOptionPane.showInputDialog(this, "Enter Donor Phone Number:");
+        if (phoneNumber == null) {
+            return;
+        }
+
+        int rowToEdit = -1;
+        for (int i = 0; i < table.getRowCount(); i++) {
+            if (table.getValueAt(i, 3).equals(phoneNumber)) {
+                rowToEdit = i;
+                break;
+            }
+        }
+
+        if (rowToEdit == -1) {
+            JOptionPane.showMessageDialog(this, "Donor with phone number " + phoneNumber + " not found.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -160,9 +213,34 @@ public class BloodBank extends JFrame {
             return;
 
         String newValue = JOptionPane.showInputDialog(this, "Enter new value:");
+        if (newValue == null || newValue.isEmpty()) {
+            return;
+        }
 
-        if (newValue != null && !newValue.isEmpty()) {
-            model.setValueAt(newValue, selectedRow, choice);
+        if (choice == 1) { // Age field
+            try {
+                int age = Integer.parseInt(newValue);
+                model.setValueAt(age, rowToEdit, choice);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Age must be a number.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (choice == 3) { // Phone Number field
+            if (!newValue.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "Phone number must contain only digits.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Check if the phone number is unique
+            for (int i = 0; i < model.getRowCount(); i++) {
+                if (i != rowToEdit && model.getValueAt(i, 3).equals(newValue)) {
+                    JOptionPane.showMessageDialog(this, "Phone number must be unique.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
+            model.setValueAt(newValue, rowToEdit, choice);
+        } else { // Other fields
+            model.setValueAt(newValue, rowToEdit, choice);
         }
     }
 

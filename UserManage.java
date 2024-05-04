@@ -46,24 +46,24 @@ public class UserManage extends JFrame {
         buttonsPanel.setBackground(new Color(46, 139, 87));
 
         // Add User Button
-        addUserButton = new JButton("Add User");
+        addUserButton = new JButton("Add Member");
         addUserButton.setBackground(new Color(46, 139, 87));
         addUserButton.setForeground(Color.WHITE);
         addUserButton.setPreferredSize(new Dimension(120, 40));
         addUserButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                addUser();
+                addMember();
             }
         });
 
         // Edit User Button
-        editUserButton = new JButton("Edit User");
+        editUserButton = new JButton("Edit Member");
         editUserButton.setBackground(new Color(46, 139, 87));
         editUserButton.setForeground(Color.WHITE);
         editUserButton.setPreferredSize(new Dimension(120, 40));
         editUserButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                editUser();
+                editMember();
             }
         });
 
@@ -87,44 +87,114 @@ public class UserManage extends JFrame {
         setVisible(true);
     }
 
-    private void addUser() {
-        // Create an array to hold user input
-        String[] userData = new String[7];
+    private void addMember() {
+        JPanel panel = new JPanel(new GridLayout(7, 2));
+        panel.add(new JLabel("Name:"));
+        JTextField nameField = new JTextField();
+        panel.add(nameField);
+        panel.add(new JLabel("ID (Digits and '-' only):"));
+        JTextField idField = new JTextField();
+        panel.add(idField);
+        panel.add(new JLabel("Batch:"));
+        JTextField batchField = new JTextField();
+        panel.add(batchField);
+        panel.add(new JLabel("Department:"));
+        JTextField deptField = new JTextField();
+        panel.add(deptField);
+        panel.add(new JLabel("Phone (Digits only):"));
+        JTextField phoneField = new JTextField();
+        panel.add(phoneField);
+        panel.add(new JLabel("Email (@ required):"));
+        JTextField emailField = new JTextField();
+        panel.add(emailField);
+        panel.add(new JLabel("Designation:"));
+        JTextField designationField = new JTextField();
+        panel.add(designationField);
 
-        // Show input dialogs for user data
-        userData[0] = JOptionPane.showInputDialog(this, "Enter Name:");
-        userData[1] = JOptionPane.showInputDialog(this, "Enter ID:");
-        userData[2] = JOptionPane.showInputDialog(this, "Enter Batch:");
-        userData[3] = JOptionPane.showInputDialog(this, "Enter Department:");
-        userData[4] = JOptionPane.showInputDialog(this, "Enter Phone:");
-        userData[5] = JOptionPane.showInputDialog(this, "Enter Email:");
-        userData[6] = JOptionPane.showInputDialog(this, "Enter Designation:");
+        int result = JOptionPane.showConfirmDialog(null, panel, "Add Member", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            String[] rowData = {
+                nameField.getText(),
+                idField.getText(),
+                batchField.getText(),
+                deptField.getText(),
+                phoneField.getText(),
+                emailField.getText(),
+                designationField.getText()
+            };
 
-        // Add the user data to the table
-        model.addRow(userData);
+            // Check uniqueness of ID, Phone, and Email
+            if (isUnique(rowData[1], 1) && isUnique(rowData[4], 4) && isEmailValid(rowData[5])) {
+                model.addRow(rowData);
+            } else {
+                JOptionPane.showMessageDialog(this, "ID, Phone, or Email is not unique, or Email is not valid.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
-    private void editUser() {
-        int selectedRow = table.getSelectedRow();
+    private void editMember() {
+        String id = JOptionPane.showInputDialog(this, "Enter ID of the member to edit:");
+        if (id == null || id.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ID is required.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int selectedRow = -1;
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, 1).equals(id)) {
+                selectedRow = i;
+                break;
+            }
+        }
+
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a row to edit.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Member with ID " + id + " not found.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         String[] options = {"Name", "ID", "Batch", "Department", "Phone", "Email", "Designation"};
         int choice = JOptionPane.showOptionDialog(this,
-                "Which field do you want to edit?", "Edit User",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                "Which field do you want to edit?", "Edit Member",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, options, options[0]);
 
-        if (choice == -1) // User closed the dialog
+        if (choice == JOptionPane.CANCEL_OPTION) // User closed the dialog
             return;
 
-        String newValue = JOptionPane.showInputDialog(this, "Enter new value:");
+        String newValue = JOptionPane.showInputDialog(this, "Enter new value for " + options[choice] + ":");
 
         if (newValue != null && !newValue.isEmpty()) {
-            model.setValueAt(newValue, selectedRow, choice);
+            if (choice == 1 && !newValue.matches("\\d+-?\\d*")) { // Check ID format
+                JOptionPane.showMessageDialog(this, "ID must contain digits and '-' only.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (choice == 4 && !newValue.matches("\\d*")) { // Check Phone format
+                JOptionPane.showMessageDialog(this, "Phone must contain digits only.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (choice == 5 && !isEmailValid(newValue)) { // Check Email format
+                JOptionPane.showMessageDialog(this, "Email format is invalid.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (isUnique(newValue, choice)) { // Check uniqueness of ID, Phone, and Email
+                model.setValueAt(newValue, selectedRow, choice);
+            } else {
+                JOptionPane.showMessageDialog(this, options[choice] + " is not unique.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
+    }
+
+    private boolean isUnique(String value, int column) {
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (i != table.getSelectedRow() && model.getValueAt(i, column).equals(value)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isEmailValid(String email) {
+        return email.contains("@");
     }
 
     public static void main(String[] args) {

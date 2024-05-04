@@ -106,8 +106,8 @@ public class FrontPage extends JFrame {
 
         //pannel3
         panel3.setLayout(new FlowLayout(FlowLayout.LEFT, 40, 40)); // Horizontal alignment with spacing
-        JButton button6 = new JButton("NOTICE BOARD");
-        JButton button7 = new JButton("NEWS/BLOG");
+        JButton button6 = new JButton("TO-DO LIST");
+        JButton button7 = new JButton("RESOURCE");
         JButton button8 = new JButton("USER MANAGE");
         JButton button9 = new JButton("BLOOD BANK");
         JButton button10 = new JButton("EVENT MANAGER");
@@ -169,16 +169,16 @@ public class FrontPage extends JFrame {
         button6.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Open a new window for the notice board
-                NoticeBoard noticeBoard = new NoticeBoard();
-                noticeBoard.setVisible(true);
+                ToDo toDo = new ToDo();
+                toDo.setVisible(true);
             }
         });
 
         button7.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Open a new window for the notice board
-                NewsBlogsApp newsBlogsApp = new NewsBlogsApp();
-                newsBlogsApp.setVisible(true);
+                Resource resource = new Resource();
+                resource.setVisible(true);
             }
         });
 
@@ -212,6 +212,21 @@ public class FrontPage extends JFrame {
                 costManager.setVisible(true);
             }
         });
+        button12.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Open a new window for the notice board
+                Alumni alumni = new Alumni();
+                alumni.setVisible(true);
+            }
+        });
+        button13.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Open a new window for the notice board
+                ClubProjects clubProjects = new ClubProjects();
+                clubProjects.setVisible(true);
+            }
+        });
+
 
         //a
         panel3.add(button6);
