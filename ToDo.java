@@ -130,11 +130,11 @@ public class ToDo extends JFrame {
         model.setValueAt("Yes", selectedRow, 2); // Mark task as complete
     }
 
-    public static void main(String[] args) {
+    /* public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new ToDo();
             }
         });
-    }
+    }*/
 }

@@ -170,11 +170,11 @@ public class EventHandle extends JFrame {
         JOptionPane.showMessageDialog(null, "Volunteer not found", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public static void main(String[] args) {
+   /*  public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new EventHandle();
             }
         });
-    }
+    }*/
 }

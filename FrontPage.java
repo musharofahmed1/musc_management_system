@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -251,5 +253,18 @@ public class FrontPage extends JFrame {
 
     public static void main(String[] args) {
         new FrontPage();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new ToDo();
+                new Resource();
+                new UserManage();
+                new BloodBank();
+                new EventHandle();
+                new CostManager();
+                new Alumni();
+                new ClubProjects();
+                
+            }
+        });
     }
 }

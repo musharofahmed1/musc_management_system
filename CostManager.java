@@ -138,11 +138,11 @@ public class CostManager extends JFrame {
         JOptionPane.showMessageDialog(this, "Functionality for searching event cost will be implemented soon.");
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new CostManager();
             }
         });
-    }
+    } */
 }

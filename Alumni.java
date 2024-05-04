@@ -132,6 +132,8 @@ public class Alumni extends JFrame {
         panel.add(mailField);
 
         int result = JOptionPane.showConfirmDialog(null, panel, "Add Alumni", JOptionPane.OK_CANCEL_OPTION);
+        //.setBackground(new Color(46, 139, 87));
+        
         if (result == JOptionPane.OK_OPTION) {
             String[] rowData = {
                 nameField.getText(),
@@ -189,12 +191,12 @@ public class Alumni extends JFrame {
         JOptionPane.showMessageDialog(null, "Alumni not found", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new Alumni();
-            }
-        });
-    }
+    //public static void main(String[] args) {
+        //SwingUtilities.invokeLater(new Runnable() {
+           // public void run() {
+           //     new Alumni();
+          //  }
+        //});
+    //}
 }
 

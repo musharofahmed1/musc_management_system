@@ -197,11 +197,11 @@ public class UserManage extends JFrame {
         return email.contains("@");
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new UserManage();
             }
         });
-    }
+    }*/ 
 }

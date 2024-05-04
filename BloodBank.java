@@ -271,8 +271,8 @@ public class BloodBank extends JFrame {
         searchModel.addColumn("Last Donate(Date)");
 
         // Mock data for demonstration
-        searchModel.addRow(new Object[]{"John Doe", 30, "O+", "1234567890", "123 Main St", "2024-04-01"});
-        searchModel.addRow(new Object[]{"Jane Smith", 25, "A-", "9876543210", "456 Elm St", "2024-03-15"});
+        //searchModel.addRow(new Object[]{"John Doe", 30, "O+", "1234567890", "123 Main St", "2024-04-01"});
+        //searchModel.addRow(new Object[]{"Jane Smith", 25, "A-", "9876543210", "456 Elm St", "2024-03-15"});
 
         JTable searchTable = new JTable(searchModel);
         JScrollPane scrollPane = new JScrollPane(searchTable);
@@ -294,11 +294,11 @@ public class BloodBank extends JFrame {
         searchResultsFrame.setVisible(true);
     }
 
-    public static void main(String[] args) {
+   /*  public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new BloodBank();
             }
         });
-    }
+    }*/
 }
